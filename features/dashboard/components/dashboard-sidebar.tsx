@@ -27,27 +27,26 @@ export function DashboardSidebar({
   plan = "Pro",
 }: DashboardSidebarProps) {
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="group">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              size="lg"
-              tooltip="gitPal"
-              className="h-22 px-2 pt-7"
-            >
+            <SidebarMenuButton size="lg" tooltip="gitPal" className="h-14 px-2">
               <Link
                 href={DASHBOARD_ROUTES.overview}
-                className="flex w-full items-center justify-center"
+                className="flex w-full items-center justify-start gap-3"
               >
-                <span className="flex size-35 shrink-0 items-center justify-center overflow-hidden rounded-none bg-sidebar">
+                <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-sidebar">
                   <Image
                     src="/logo.svg"
-                    alt=""
-                    width={84}
-                    height={84}
-                    className="h-35 w-35 object-contain"
+                    alt="gitPal logo"
+                    width={36}
+                    height={36}
+                    className="h-8 w-8 object-contain"
                   />
+                </span>
+                <span className="text-xl font-semibold tracking-tight text-sidebar-foreground transition-opacity duration-200 group-data-[state=collapsed]:hidden">
+                  gitPal
                 </span>
               </Link>
             </SidebarMenuButton>

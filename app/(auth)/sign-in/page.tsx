@@ -30,15 +30,20 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
   return (
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="items-center gap-4 pb-4 text-center">
-        <div className="flex justify-center pt-2 m-8">
-          <Image
-            src="/logo.svg"
-            alt="GitPal Logo"
-            width={272}
-            height={272}
-            priority
-            className="mx-auto h-auto w-68 max-w-full text-foreground"
-          />
+        <div className="m-8 flex justify-center pt-2">
+          <div className="flex items-center justify-center gap-3">
+            <Image
+              src="/logo.svg"
+              alt="GitPal Logo"
+              width={56}
+              height={56}
+              priority
+              className="h-auto w-14 max-w-full text-foreground"
+            />
+            <span className="text-4xl font-semibold tracking-tight text-foreground">
+              gitPal
+            </span>
+          </div>
         </div>
         <div className="space-y-2">
           <CardTitle className="text-base">Welcome back</CardTitle>
