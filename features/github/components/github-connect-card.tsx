@@ -28,7 +28,7 @@ type GithubConnectCardProps = {
 
 function ConnectedDetails({ accountLogin }: { accountLogin: string | null }) {
   return (
-    <p className="text-xs text-muted-foreground">
+    <p className="text-sm text-muted-foreground">
       Installed for{" "}
       <span className="font-medium text-green-700 dark:text-green-400">
         @{accountLogin}
@@ -41,10 +41,19 @@ function ConnectedDetails({ accountLogin }: { accountLogin: string | null }) {
 
 function DisconnectedDetails() {
   return (
-    <ul className="list-inside list-disc space-y-1 text-xs text-muted-foreground">
-      <li>Access public and private repositories you select</li>
-      <li>Receive webhooks for pull request events</li>
-      <li>Post AI-generated review comments on PRs</li>
+    <ul className="space-y-2 text-sm text-muted-foreground">
+      <li className="flex items-start gap-2">
+        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
+        Access public and private repositories you select
+      </li>
+      <li className="flex items-start gap-2">
+        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
+        Receive webhooks for pull request events
+      </li>
+      <li className="flex items-start gap-2">
+        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
+        Post AI-generated review comments on PRs
+      </li>
     </ul>
   );
 }
@@ -109,17 +118,15 @@ export function GithubConnectCard({
   installation,
 }: GithubConnectCardProps) {
   const { connected, accountLogin } = installation;
-  // Install URL encodes userId so the callback can associate the installation
   const installUrl = getGithubInstallUrl(userId);
 
-  // Default to neutral styling; switch to green when connected
   let cardBorderClass = "border-border";
   let iconWrapperClass = "border-border bg-muted";
   let statusTone: "success" | "neutral" = "neutral";
   let statusLabel = "Not connected";
 
   if (connected) {
-    cardBorderClass = "border-green-500/30";
+    cardBorderClass = "border-green-500/30 bg-green-500/[0.03]";
     iconWrapperClass =
       "border-green-500/40 bg-green-500/10 text-green-700 dark:text-green-400";
     statusTone = "success";
@@ -127,24 +134,24 @@ export function GithubConnectCard({
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-6">
+    <div className="flex flex-1 flex-col gap-6 p-4 sm:p-6">
       <Card className={cn("max-w-2xl transition-colors", cardBorderClass)}>
         <CardHeader>
           <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <span
                 className={cn(
-                  "flex size-10 items-center justify-center rounded-none border",
+                  "flex size-12 items-center justify-center rounded-xl border",
                   iconWrapperClass,
                 )}
               >
-                <GitBranch className="size-5" />
+                <GitBranch className="size-6" />
               </span>
               <div>
                 <CardTitle>GitHub App</CardTitle>
                 <CardDescription>
-                  Install gitPal app on your GitHub account or organization to
-                  access public and private repositories.
+                  Install gitPal on your GitHub account or organization to access
+                  repositories and enable AI reviews.
                 </CardDescription>
               </div>
             </div>

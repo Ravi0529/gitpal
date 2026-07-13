@@ -36,16 +36,16 @@ export function DashboardSidebar({
                 href={DASHBOARD_ROUTES.overview}
                 className="flex w-full items-center justify-start gap-3"
               >
-                <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-sidebar">
+                <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-sidebar-border bg-sidebar">
                   <Image
                     src="/logo-dark.svg"
                     alt="gitPal logo"
                     width={36}
                     height={36}
-                    className="h-8 w-8 object-contain"
+                    className="size-7 object-contain"
                   />
                 </span>
-                <span className="text-xl font-semibold tracking-tight text-sidebar-foreground transition-opacity duration-200 group-data-[state=collapsed]:hidden">
+                <span className="font-heading text-lg font-semibold tracking-tight text-sidebar-foreground transition-opacity duration-200 group-data-[state=collapsed]:hidden">
                   gitPal
                 </span>
               </Link>

@@ -1,7 +1,12 @@
 import type { ComponentType } from "react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { FolderGit2Icon, GitPullRequestIcon, SparklesIcon } from "lucide-react";
+import {
+  ArrowRight,
+  FolderGit2Icon,
+  GitPullRequestIcon,
+  SparklesIcon,
+} from "lucide-react";
 
 import { GitHubIcon } from "@/features/auth/components/github-sign-in-form";
 import { DASHBOARD_ROUTES } from "@/features/dashboard/lib/routes";
@@ -137,55 +142,55 @@ function buildStats(overview: OverviewData): StatCard[] {
 
 function ConnectGithubBanner() {
   return (
-    <Card className="border-blue-500/25 bg-blue-500/5">
+    <Card className="border-primary/25 bg-primary/5">
       <CardHeader className="flex flex-row items-start justify-between gap-4">
-        <div>
-          <CardTitle className="text-sm">
-            Connect GitHub to get started
-          </CardTitle>
+        <div className="space-y-1">
+          <CardTitle>Connect GitHub to get started</CardTitle>
           <CardDescription>
             Install the GitHub App to list repositories and enable AI reviews on
             pull requests.
           </CardDescription>
         </div>
         <Button asChild className="shrink-0">
-          <Link href={DASHBOARD_ROUTES.github}>Connect GitHub</Link>
+          <Link href={DASHBOARD_ROUTES.github}>
+            Connect GitHub
+            <ArrowRight />
+          </Link>
         </Button>
       </CardHeader>
     </Card>
   );
 }
 
-/**
- * Renders the recent activity list or an empty-state message.
- *
- * @param items - Recent review activity rows from the server.
- * @returns A vertical list of activity entries with status badges.
- */
 function ActivityList({ items }: { items: OverviewActivityItem[] }) {
   if (items.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground">
-        No reviews yet. Once AI PR reviews are enabled, summaries will appear
-        here.
-      </p>
+      <div className="flex flex-col items-center justify-center gap-2 py-8 text-center">
+        <GitPullRequestIcon className="size-8 text-muted-foreground/60" />
+        <p className="text-sm font-medium">No activity yet</p>
+        <p className="max-w-sm text-xs text-muted-foreground">
+          Once AI PR reviews are enabled, summaries will appear here.
+        </p>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="divide-y divide-border">
       {items.map((item) => {
         const config = ACTIVITY_STATUS[item.status];
 
         return (
           <div
             key={item.id}
-            className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-4 last:border-0 last:pb-0"
+            className="flex flex-wrap items-center justify-between gap-3 py-4 first:pt-0 last:pb-0"
           >
-            <div>
-              <p className="text-xs font-medium">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium">
                 {item.repoFullName}{" "}
-                <span className="text-muted-foreground">{item.prNumber}</span>
+                <span className="font-normal text-muted-foreground">
+                  #{item.prNumber}
+                </span>
               </p>
               <p className="text-xs text-muted-foreground">
                 {formatDistanceToNow(new Date(item.reviewedAt), {
@@ -205,40 +210,39 @@ type OverviewContentProps = {
   overview: OverviewData;
 };
 
-/**
- * Main Overview page content — stat grid, optional banner, activity card.
- *
- * @param overview - Pre-fetched data from `getOverview()`.
- * @returns The overview page body below `DashboardHeader`.
- */
 export function OverviewContent({ overview }: OverviewContentProps) {
   const stats = buildStats(overview);
   const showConnectBanner = !overview.installation.connected;
 
   return (
-    <div className="flex flex-1 flex-col gap-6 p-6">
+    <div className="flex flex-1 flex-col gap-6 p-4 sm:p-6">
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
           <Card
             key={stat.title}
             className={cn(
-              stat.accent === "success" && "border-green-500/25",
-              stat.accent === "info" && "border-blue-500/25",
+              "transition-shadow hover:shadow-sm",
+              stat.accent === "success" && "border-green-500/25 bg-green-500/3",
+              stat.accent === "info" && "border-blue-500/25 bg-blue-500/3",
             )}
           >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-xs font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <stat.icon
+              <div
                 className={cn(
-                  "size-4",
+                  "flex size-8 items-center justify-center rounded-lg border",
                   stat.accent === "success" &&
-                    "text-green-600 dark:text-green-400",
-                  stat.accent === "info" && "text-blue-600 dark:text-blue-400",
-                  !stat.accent && "text-muted-foreground",
+                    "border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400",
+                  stat.accent === "info" &&
+                    "border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400",
+                  !stat.accent &&
+                    "border-border bg-muted text-muted-foreground",
                 )}
-              />
+              >
+                <stat.icon className="size-4" />
+              </div>
             </CardHeader>
             <CardContent>
               <p
@@ -251,7 +255,7 @@ export function OverviewContent({ overview }: OverviewContentProps) {
               >
                 {stat.value}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="mt-1 text-xs text-muted-foreground">
                 {stat.description}
               </p>
             </CardContent>

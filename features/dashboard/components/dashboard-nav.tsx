@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GitBranch, LayoutIcon, Settings } from "lucide-react";
+import { GitBranch, GitPullRequest, LayoutIcon, Settings } from "lucide-react";
 import { GitHubIcon } from "@/features/auth/components/github-sign-in-form";
 import {
   DASHBOARD_NAV_ITEMS,
@@ -20,6 +20,7 @@ import {
 const NAV_ICONS = {
   "layout-dashboard": LayoutIcon,
   "folder-git-2": GitBranch,
+  "git-pull-request": GitPullRequest,
   github: GitHubIcon,
   settings: Settings,
 } as const;

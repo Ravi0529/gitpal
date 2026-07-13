@@ -16,8 +16,9 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { githubReposInfiniteQuery } from "@/features/github/lib/repos-query";
 import { DashboardRepo } from "../lib/types";
 import { statusBadge } from "../lib/status-style";
-import { Lock, LockOpen, Star } from "lucide-react";
+import { Lock, LockOpen, Loader2, Search, Star } from "lucide-react";
 import SyncRepoButton from "@/features/repo-sync/components/sync-repo-button";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Filter = "all" | "public" | "private";
 
@@ -108,15 +109,18 @@ export function RepoList() {
   if (loading) {
     rows = (
       <TableRow>
-        <TableCell colSpan={7} className="text-center text-muted-foreground">
-          Loading repositories…
+        <TableCell colSpan={7} className="h-32">
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" />
+            Loading repositories…
+          </div>
         </TableCell>
       </TableRow>
     );
   } else if (isError) {
     rows = (
       <TableRow>
-        <TableCell colSpan={7} className="text-center text-muted-foreground">
+        <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
           Failed to load repositories.
         </TableCell>
       </TableRow>
@@ -124,7 +128,7 @@ export function RepoList() {
   } else if (visibleRepos.length === 0) {
     rows = (
       <TableRow>
-        <TableCell colSpan={7} className="text-center text-muted-foreground">
+        <TableCell colSpan={7} className="h-32 text-center text-muted-foreground">
           No repositories found.
         </TableCell>
       </TableRow>
@@ -134,7 +138,7 @@ export function RepoList() {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-6">
+    <div className="flex flex-1 flex-col gap-4 p-4 sm:p-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Tabs
           value={filter}
@@ -148,35 +152,41 @@ export function RepoList() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Input
-          placeholder="Search repositories…"
-          className="max-w-xs"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
+        <div className="relative max-w-xs">
+          <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Search repositories…"
+            className="pl-8"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+        </div>
       </div>
 
-      <div className="rounded-none border border-border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Repository</TableHead>
-              <TableHead>Visibility</TableHead>
-              <TableHead>Branch</TableHead>
-              <TableHead>Language</TableHead>
-              <TableHead className="text-right">Stars</TableHead>
-              <TableHead className="text-right">Updated</TableHead>
-              <TableHead className="text-right">Codebase</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>{rows}</TableBody>
-        </Table>
-      </div>
+      <Card className="overflow-hidden py-0">
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/40 hover:bg-muted/40">
+                <TableHead>Repository</TableHead>
+                <TableHead>Visibility</TableHead>
+                <TableHead>Branch</TableHead>
+                <TableHead>Language</TableHead>
+                <TableHead className="text-right">Stars</TableHead>
+                <TableHead className="text-right">Updated</TableHead>
+                <TableHead className="text-right">Codebase</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>{rows}</TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
       <div
         ref={loadMoreRef}
-        className="py-2 text-center text-sm text-muted-foreground"
+        className="flex items-center justify-center gap-2 py-2 text-sm text-muted-foreground"
       >
+        {isFetchingNextPage ? <Loader2 className="size-3.5 animate-spin" /> : null}
         {footer}
       </div>
     </div>
@@ -187,10 +197,12 @@ function RepoRow({ repo }: { repo: DashboardRepo }) {
   const tone = repo.visibility === "public" ? "info" : "warning";
 
   return (
-    <TableRow>
+    <TableRow className="group">
       <TableCell>
         <div className="flex flex-col">
-          <span className="font-medium">{repo.name}</span>
+          <span className="font-medium group-hover:text-primary transition-colors">
+            {repo.name}
+          </span>
           <span className="text-xs text-muted-foreground">{repo.fullName}</span>
         </div>
       </TableCell>
@@ -204,7 +216,7 @@ function RepoRow({ repo }: { repo: DashboardRepo }) {
           {repo.visibility}
         </span>
       </TableCell>
-      <TableCell className="text-muted-foreground">
+      <TableCell className="font-mono text-xs text-muted-foreground">
         {repo.defaultBranch}
       </TableCell>
       <TableCell>{repo.language ?? "—"}</TableCell>

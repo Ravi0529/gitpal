@@ -1,6 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
+import { Check } from "lucide-react";
 
 import { UpgradeButton } from "@/features/billing/components/upgrade-button";
 
@@ -72,7 +73,7 @@ function ProfileTab({ profile }: { profile: SettingsProfile }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 rounded-xl border border-border/60 bg-muted/30 p-4">
           <Avatar size="lg">
             {profile.image ? (
               <AvatarImage src={profile.image} alt={displayName} />
@@ -81,7 +82,7 @@ function ProfileTab({ profile }: { profile: SettingsProfile }) {
           </Avatar>
           <div>
             <p className="font-medium">{displayName}</p>
-            <p className="text-xs text-muted-foreground">{profile.email}</p>
+            <p className="text-sm text-muted-foreground">{profile.email}</p>
             <p className="text-xs text-muted-foreground">
               Member since {memberSince}
             </p>
@@ -136,7 +137,6 @@ function SubscriptionTab({
   const isActive =
     subscription.status === "active" || subscription.status === "trialing";
 
-  // Visual styling reflects active vs inactive subscription
   let cardBorderClass = "border-border";
   let planTextClass = "text-foreground";
   let statusTextClass = "text-muted-foreground";
@@ -164,7 +164,7 @@ function SubscriptionTab({
       <CardContent className="space-y-4">
         <div
           className={cn(
-            "flex flex-wrap items-center justify-between gap-4 rounded-none border p-4",
+            "flex flex-wrap items-center justify-between gap-4 rounded-xl border p-4",
             isActive
               ? "border-green-500/30 bg-green-500/5"
               : "border-border bg-muted/30",
@@ -174,7 +174,7 @@ function SubscriptionTab({
             <p className={cn("font-medium", planTextClass)}>
               {planDetails.label} plan
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Status: <span className={statusTextClass}>{statusLabel}</span>
             </p>
             {renewalDate ? (
@@ -185,10 +185,13 @@ function SubscriptionTab({
           </div>
           <span className={statusBadge(badgeTone)}>{planDetails.label}</span>
         </div>
-        <p className="text-xs text-muted-foreground">{getUsageText(usage)}</p>
-        <ul className="space-y-2 text-xs text-muted-foreground">
+        <p className="text-sm text-muted-foreground">{getUsageText(usage)}</p>
+        <ul className="space-y-2 text-sm text-muted-foreground">
           {planDetails.features.map((feature) => (
-            <li key={feature}>{feature}</li>
+            <li key={feature} className="flex items-start gap-2">
+              <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+              {feature}
+            </li>
           ))}
         </ul>
       </CardContent>
@@ -210,11 +213,15 @@ export function SettingsContent({
   usage,
 }: SettingsContentProps) {
   return (
-    <div className="flex flex-1 flex-col p-6">
+    <div className="flex flex-1 flex-col p-4 sm:p-6">
       <Tabs defaultValue="profile" className="w-full max-w-2xl">
-        <TabsList>
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="subscription">Subscription</TabsTrigger>
+        <TabsList className="w-full sm:w-auto">
+          <TabsTrigger value="profile" className="flex-1 sm:flex-none">
+            Profile
+          </TabsTrigger>
+          <TabsTrigger value="subscription" className="flex-1 sm:flex-none">
+            Subscription
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="profile" className="mt-6 space-y-6">

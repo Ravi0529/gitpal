@@ -33,7 +33,7 @@ export function statusBadge(
   className?: string,
 ) {
   return cn(
-    "inline-flex items-center rounded-none border px-2 py-0.5 text-xs font-medium capitalize",
+    "inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium capitalize",
     statusBadgeClass[tone],
     className,
   );
