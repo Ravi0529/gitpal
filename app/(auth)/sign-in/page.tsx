@@ -33,7 +33,7 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
         <div className="m-8 flex justify-center pt-2">
           <div className="flex items-center justify-center gap-3">
             <Image
-              src="/logo.svg"
+              src="/logo-dark.svg"
               alt="GitPal Logo"
               width={56}
               height={56}

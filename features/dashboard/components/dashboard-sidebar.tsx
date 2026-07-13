@@ -38,7 +38,7 @@ export function DashboardSidebar({
               >
                 <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-md bg-sidebar">
                   <Image
-                    src="/logo.svg"
+                    src="/logo-dark.svg"
                     alt="gitPal logo"
                     width={36}
                     height={36}
