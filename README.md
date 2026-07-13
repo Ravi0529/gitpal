@@ -76,7 +76,6 @@ sequenceDiagram
 - **shadcn/ui & Radix UI** — Accessible, premium component primitives.
 - **TanStack Query (v5)** — Client-side server state management, caching, and background synchronization.
 - **Streamdown** — Custom markdown renderer tailored for clean streaming AI outputs.
-- **Recharts** — Responsive graphs mapping review histories and usage logs.
 - **Lucide React & Hugeicons** — Elegant, unified icon families.
 
 ### Backend, Auth & DB
