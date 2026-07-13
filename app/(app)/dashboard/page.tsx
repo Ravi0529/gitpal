@@ -1,5 +1,25 @@
-const Dashboard = () => {
-  return <div>Dashboard</div>;
+import type { Metadata } from "next";
+
+import { DashboardHeader } from "@/features/dashboard/components/dashboard-header";
+import { OverviewContent } from "@/features/dashboard/components/overview-content";
+import { getOverview } from "@/features/overview/server/get-overview";
+import { requireAuth } from "@/features/auth/actions";
+
+export const metadata: Metadata = {
+  title: "Overview - Dashboard",
 };
 
-export default Dashboard;
+export default async function DashboardOverviewPage() {
+  const session = await requireAuth();
+  const overview = await getOverview(session.user.id);
+
+  return (
+    <>
+      <DashboardHeader
+        title="Overview"
+        description="Summary of reviews and connected repositories."
+      />
+      <OverviewContent overview={overview} />
+    </>
+  );
+}

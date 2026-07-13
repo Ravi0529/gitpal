@@ -1,5 +1,8 @@
-import { requireAuth } from "@/features/auth/actions";
+import { QueryProvider } from "@/components/providers/query-provider";
 import { DashboardShell } from "@/features/dashboard/components/dashboard-shell";
+import { PLAN_DETAILS } from "@/features/settings/lib/plan-details";
+import { getUserSubscription } from "@/features/settings/server/subscription";
+import { requireAuth } from "@/features/auth/actions";
 
 export default async function DashboardLayout({
   children,
@@ -7,10 +10,14 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await requireAuth();
+  const subscription = await getUserSubscription(session.user.id);
+  const planLabel = PLAN_DETAILS[subscription.plan].label;
 
   return (
-    <DashboardShell user={session.user} plan="Pro">
-      {children}
-    </DashboardShell>
+    <QueryProvider>
+      <DashboardShell user={session.user} plan={planLabel}>
+        {children}
+      </DashboardShell>
+    </QueryProvider>
   );
 }
