@@ -23,11 +23,12 @@ export const metadata: Metadata = {
 };
 
 type SignInPageProps = {
-  searchParams: Promise<{ callbackUrl?: string }>;
+  searchParams: Promise<{ callbackUrl?: string; callback?: string }>;
 };
 
 const SignInPage = async ({ searchParams }: SignInPageProps) => {
-  const { callbackUrl } = await searchParams;
+  const { callbackUrl, callback } = await searchParams;
+  const returnTo = callbackUrl ?? callback;
   return (
     <Card className="relative overflow-hidden border-border/80 shadow-lg">
       <div
@@ -67,7 +68,7 @@ const SignInPage = async ({ searchParams }: SignInPageProps) => {
           <FieldGroup>
             <Field>
               <div className="flex flex-col items-center gap-4">
-                <GithubSignInForm callbackUrl={callbackUrl} />
+                <GithubSignInForm callbackUrl={returnTo} />
                 <FieldDescription className="max-w-sm text-center leading-relaxed">
                   We only request the permissions needed to identify your account.
                   You can revoke access at any time from your GitHub settings.

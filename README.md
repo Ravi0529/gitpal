@@ -185,7 +185,7 @@ DATABASE_URL="postgresql://username:password@localhost:5432/gitpal?schema=public
 BETTER_AUTH_SECRET="your-super-secret-auth-key-32-chars"
 BETTER_AUTH_URL="http://localhost:3000"
 
-# GitHub Social Auth (OAuth Credentials inside GitHub App)
+# GitHub Social Auth (GitHub OAuth App or GitHub App with OAuth enabled)
 GITHUB_CLIENT_ID="Iv1.xxxxxxxxx"
 GITHUB_CLIENT_SECRET="your-github-app-client-secret"
 
@@ -195,6 +195,8 @@ GITHUB_APP_ID="123456"
 GITHUB_APP_NAME="your-app-name"
 GITHUB_WEBHOOK_SECRET="your-custom-webhook-secret-string"
 GITHUB_APP_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
+
+Make sure the GitHub credentials come from an OAuth-capable GitHub App or a dedicated GitHub OAuth App, and that the callback URL matches your deployed `BETTER_AUTH_URL` exactly.
 
 # Inngest Background Jobs
 # Set to 1 when running local dev server, remove or set to 0 in production

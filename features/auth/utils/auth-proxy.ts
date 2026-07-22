@@ -6,14 +6,16 @@ function redirectToSignIn(request: NextRequest, pathname: string) {
   const signInUrl = new URL(SIGN_IN_PATH, request.url);
 
   signInUrl.searchParams.set(
-    "callback",
+    "callbackUrl",
     `${pathname}${request.nextUrl.search}`,
   );
   return NextResponse.redirect(signInUrl);
 }
 
 function getPostAuthRedirectPath(request: NextRequest): string {
-  const callbackUrl = request.nextUrl.searchParams.get("callbackUrl");
+  const callbackUrl =
+    request.nextUrl.searchParams.get("callbackUrl") ??
+    request.nextUrl.searchParams.get("callback");
   return getSafeCallbackPath(callbackUrl);
 }
 
